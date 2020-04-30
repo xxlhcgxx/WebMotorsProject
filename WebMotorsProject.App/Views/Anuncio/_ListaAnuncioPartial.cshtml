@@ -1,0 +1,39 @@
+﻿@using WebMotorsProject.App.Models;
+
+@model IEnumerable<AnuncioViewModel>
+
+<table class="table table-hover table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Marca)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Modelo)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Versao)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Ano)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Quilometragem)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Observacao)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Marca)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Modelo)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Versao)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Ano)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Quilometragem)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Observacao)</td>
+
+                <td class="text-right">
+
+                    @Html.ActionLink(" ", "Details", "Anuncio", new { id = @item.Id }, new { @id = "@item.Id", @class = "btn btn-warning fa fa-search", title = "Detalhes do Anuncio" })
+
+                    @Html.ActionLink(" ", "Edit", "Anuncio", new { id = @item.Id }, new { @id = "@item.Id", @class = "btn btn-info fa fa-pencil", title = "Editar Anuncio" })
+
+                    @Html.ActionLink(" ", "Delete", "Anuncio", new { id = @item.Id }, new { @id = "@item.Id", @class = "btn btn-danger fa fa-trash", title = "Excluir Anuncio" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

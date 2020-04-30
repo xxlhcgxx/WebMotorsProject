@@ -1,0 +1,24 @@
+﻿<div id="confirmModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>Usuários</h4>
+                @if (ViewBag.Incluir == 1)
+                {
+                    <p>Inclusão realizada com sucesso!</p>
+                }
+                else if (ViewBag.Alterar == 1)
+                {
+                    <p>Alteração realizada com sucesso!</p>
+                }
+            </div>
+            <div class="modal-footer">
+                @if (ViewBag.Incluir == 1)
+                {
+                    @Html.ActionLink("Novo Anúncio", "Create", "Anuncio", new { @class = "btn btn-info" })
+                }
+                @Html.ActionLink("Lista de Anúncios", "Index", "Anuncio", new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+</div>

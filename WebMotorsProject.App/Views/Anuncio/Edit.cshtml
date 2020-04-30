@@ -1,0 +1,182 @@
+﻿@model WebMotorsProject.App.Models.AnuncioViewModel
+
+@{
+    ViewData["Title"] = "Editar Anúncio";
+}
+
+@if (ViewBag.Alterar == 1)
+{
+    @Html.Partial("_ConfirmacaoPartial");
+}
+
+@using (Html.BeginForm())
+{
+    <h3 class="text-left">@ViewBag.Title</h3>
+    <br />
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            <div class="row">
+                @*Marca*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.Marca, ViewBag.Marcas as SelectList, new { @class = "form-control", @onChange = "SelectedMarca(this)" })
+
+                        @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*Ano*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                @*Modelo*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+
+                        @Html.DropDownListFor(model => model.Modelo, ViewBag.Modelos as SelectList, "Nenhum", new { @class = "form-control", @onChange = "SelectedModelo(this)" })
+
+                        @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*Quilometragem*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Quilometragem, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Quilometragem, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Quilometragem, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                @*Versao*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Versao, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.Versao, ViewBag.Versoes as SelectList, "Nenhum", new { @class = "form-control", @onChange = "SelecionarDados(this)" })
+
+                        @Html.ValidationMessageFor(model => model.Versao, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                @*Observacoes*@
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Observacao, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextAreaFor(model => model.Observacao, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="hiddenMarca" name="hiddenMarca" value="" />
+        <input type="hidden" id="hiddenModelo" name="hiddenModelo" value="" />
+        <input type="hidden" id="hiddenVersao" name="hiddenVersao" value="" />
+
+        <div class="form-group">
+            <div class="col-md-offset-4">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                @Html.ActionLink("Voltar", "Index", "Anuncio", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+
+    function SelecionarDados(ddlObject) {
+        var selectedValue = ddlObject.value;
+        $("#hiddenVersao").val(ddlObject.options[ddlObject.selectedIndex].text);
+    }
+
+    function SelectedMarca(ddlObject) {
+        var selectedValue = ddlObject.value;
+        $("#hiddenMarca").val(ddlObject.options[ddlObject.selectedIndex].text);
+        CarregarModelo(selectedValue);
+    }
+
+    function CarregarModelo(id) {
+        $.ajax({
+            url: '@Url.Content("~/Anuncio/GetModelos")',
+            type: 'post',
+            dataType: 'json',
+            data: { marca: id },
+            success: function (data) {
+
+                // Remover todos existentes;
+                $('#Modelo').empty();
+
+                // Criar campo vazio;
+                var opt = new Option("Nenhum", null);
+                $('#Modelo').append(opt);
+
+                // Carrega lista do retorno
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#Modelo').append(opt);
+                }
+            }
+        });
+    }
+
+    function SelectedModelo(ddlObject) {
+        var selectedValue = ddlObject.value;
+        $("#hiddenModelo").val(ddlObject.options[ddlObject.selectedIndex].text);
+        CarregarVersao(selectedValue);
+    }
+
+    function CarregarVersao(id) {
+        $.ajax({
+            url: '@Url.Content("~/Anuncio/GetVersoes")',
+            type: 'post',
+            dataType: 'json',
+            data: { modelo: id },
+            success: function (data) {
+
+                // Remover todos existentes;
+                $('#Versao').empty();
+
+                // Criar campo vazio;
+                var opt = new Option("Nenhum", null);
+                $('#Versao').append(opt);
+
+                // Carrega lista do retorno
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#Versao').append(opt);
+                }
+            }
+        });
+    }
+
+
+</script>
+

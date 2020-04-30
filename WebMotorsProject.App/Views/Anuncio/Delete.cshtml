@@ -1,0 +1,99 @@
+﻿@model WebMotorsProject.App.Models.AnuncioViewModel
+
+@{
+    ViewData["Title"] = "Excluir Anúncio";
+}
+
+<h3 class="text-left">@ViewBag.Title</h3>
+<br />
+
+<div class="dl-horizontal">
+
+    <div class="form-group">
+        <div class="row">
+            @*Marca*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Marca)</div>
+                <div>@Html.DisplayFor(model => model.Marca)</div>
+            </div>
+
+            @*Ano*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Ano)</div>
+                <div>@Html.DisplayFor(model => model.Ano)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            @*Modelo*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Modelo)</div>
+                <div>@Html.DisplayFor(model => model.Modelo)</div>
+            </div>
+
+            @*Quilometragem*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Quilometragem)</div>
+                <div>@Html.DisplayFor(model => model.Quilometragem)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            @*Versao*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Versao)</div>
+                <div>@Html.DisplayFor(model => model.Versao)</div>
+            </div>
+
+            @*Observacao*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Observacao)</div>
+                <div>@Html.DisplayFor(model => model.Observacao)</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Delete", "Anuncio", FormMethod.Post, new { role = "form", id = "formCrud" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-actions no-color">
+        <span class="btn btn-danger" id="delete">Excluir</span>
+        @Html.ActionLink("Voltar", "Index", "Anuncio", null, new { @class = "btn btn-info" })
+    </div>
+}
+
+<div class="modal" id="deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmação de exclusão</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Confirma a exclusão do registro <span id="textModal"></span>??
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="$('#formCrud').submit();">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).on("click", '#delete', function (e) {
+            $('#textModal').text($('#Nome').val());
+            $('#deleteConfirm').modal('show');
+        })
+    </script>
+}

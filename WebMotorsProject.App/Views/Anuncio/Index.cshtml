@@ -1,0 +1,13 @@
+﻿@using WebMotorsProject.App.Models;
+
+@model IEnumerable<AnuncioViewModel>
+
+@{
+    ViewBag.Title = "Consulta de Anuncios";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div id="listaAnuncio">
+    @Html.Partial("_ListaAnuncioPartial", Model)
+</div>

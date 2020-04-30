@@ -1,0 +1,69 @@
+﻿@model WebMotorsProject.App.Models.AnuncioViewModel
+
+@{
+    ViewData["Title"] = "Detalhe do Anúncio";
+}
+
+<h3 class="text-left">@ViewBag.Title</h3>
+<br />
+
+
+<div class="dl-horizontal">
+
+    <div class="form-group">
+        <div class="row">
+            @*Marca*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Marca)</div>
+                <div>@Html.DisplayFor(model => model.Marca)</div>
+            </div>
+
+            @*Ano*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Ano)</div>
+                <div>@Html.DisplayFor(model => model.Ano)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            @*Modelo*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Modelo)</div>
+                <div>@Html.DisplayFor(model => model.Modelo)</div>
+            </div>
+
+            @*Quilometragem*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Quilometragem)</div>
+                <div>@Html.DisplayFor(model => model.Quilometragem)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            @*Versao*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Versao)</div>
+                <div>@Html.DisplayFor(model => model.Versao)</div>
+            </div>
+
+            @*Observacao*@
+            <div class="col-md-6">
+                <div style="font-weight:bold;">@Html.DisplayNameFor(model => model.Observacao)</div>
+                <div>@Html.DisplayFor(model => model.Observacao)</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-actions no-color">
+        @Html.ActionLink("Voltar", "Index", "Anuncio", null, new { @class = "btn btn-info" })
+    </div>
+}
